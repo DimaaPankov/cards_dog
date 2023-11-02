@@ -1,7 +1,7 @@
 package com.fortunetiasasger.exampale.utils
 
 import com.fortunetiasasger.exampale.R
-import com.fortunetiasasger.exampale.data.model.Stone
+import com.fortunetiasasger.exampale.data.models.Stone
 import kotlin.random.Random
 
 private fun sumOfElements(sheet: MutableList<Int>): Int {

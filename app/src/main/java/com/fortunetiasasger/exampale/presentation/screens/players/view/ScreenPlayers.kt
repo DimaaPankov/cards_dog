@@ -25,7 +25,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.fortunetiasasger.exampale.R
 import com.fortunetiasasger.exampale.data.DateGamePersonTwo
-import com.fortunetiasasger.exampale.data.model.Person
+import com.fortunetiasasger.exampale.data.models.Person
 import com.fortunetiasasger.exampale.presentation.activity.MainActivity
 import com.fortunetiasasger.exampale.presentation.nav.Screen
 import com.fortunetiasasger.exampale.presentation.screens.players.viewmodel.ViewModelPlayers

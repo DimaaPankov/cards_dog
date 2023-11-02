@@ -21,8 +21,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.fortunetiasasger.exampale.R
 import com.fortunetiasasger.exampale.screens.setup_cards.com.fortunetiasasger.exampale.theme.Cards_spels_plus_composeTheme
-import com.fortunetiasasger.exampale.data.DateGamePersonTwo
-import com.fortunetiasasger.exampale.data.model.Person
+import com.fortunetiasasger.exampale.data.models.Person
+import com.fortunetiasasger.exampale.data.repository.StaticDate
 import com.fortunetiasasger.exampale.presentation.activity.MainActivity
 import com.fortunetiasasger.exampale.presentation.nav.Screen
 import com.fortunetiasasger.exampale.presentation.screens.choosestones.viewmodel.ViewModelChooseStone
@@ -33,7 +33,7 @@ import kotlinx.coroutines.delay
     @Composable
     fun ShowChooseStones() {
         Cards_spels_plus_composeTheme {
-            ScreenChooseStones(ViewModelChooseStone()).ShowScreen()
+            ScreenChooseStones(ViewModelChooseStone(StaticDate)).ShowScreen()
         }
     }
 
@@ -44,16 +44,18 @@ import kotlinx.coroutines.delay
       fun ShowScreen() {
           var levelLoadingState = viewModel.levelLoadingState.observeAsState(0f).value
           val clickedCraftState = viewModel.clickedCrafState.observeAsState(false).value
+          val listStoneLeft = viewModel.listStoneLeft.observeAsState().value
+          val listStoneRight = viewModel.listStoneRight.observeAsState().value
 
           if(clickedCraftState){
               LaunchedEffect(true) {
                   delay(500L)
                   viewModel.clickedCrafState(false)
-                     Log.d("test_1",DateGamePersonTwo.listCards.size.toString())
-                  if(DateGamePersonTwo.listCards.size ==5){
+      //               Log.d("test_1",DateGamePersonTwo.listCards.size.toString())
+                  if((viewModel.listCards.value?.size?:0) ==5){
 
-                      if(DateGamePersonTwo.listCards == Person.ONE){
-                          DateGamePersonTwo.listCards = Person.TWO
+                      if(viewModel.personNomber.value == Person.ONE){
+                          viewModel.personNomber(Person.TWO)
                           viewModel.levelLoadingState(0f)
                               //    DateGamePersonTwo.listCards = mutableListOf()
                       }else{
@@ -88,12 +90,12 @@ import kotlinx.coroutines.delay
 
 
               PagerStone(
-                  listImg = DateGamePersonTwo.listStoneLeft,
+                  listImg = listStoneLeft?.toList()?: listOf(),
                   id = "ColumLeft",
                   side = SidesStone.Lefr
               )
               PagerStone(
-                  listImg = DateGamePersonTwo.listStoneRight,
+                  listImg = listStoneRight?.toList()?: listOf(),
                   id = "ColumRight",
                   side = SidesStone.Right
               )
@@ -127,9 +129,9 @@ import kotlinx.coroutines.delay
                       .layoutId("IVclickCraft")
                       .fillMaxWidth(0.9f)
                       .clickable {
-                          if(!clickedCraftState) {
-                              DateGamePersonTwo.listStoneLeft.remove(DateGamePersonTwo.stoneLeft)
-                              DateGamePersonTwo.listStoneRight.remove(DateGamePersonTwo.stoneRight)
+                          if (!clickedCraftState) {
+                              listStoneLeft.remove(DateGamePersonTwo.stoneLeft)
+                              listStoneRight.remove(DateGamePersonTwo.stoneRight)
                               viewModel.levelLoadingState(
                                   levelLoadingState + ChooseStoneApi.LEVEL_LOADING
                               )
@@ -184,7 +186,7 @@ import kotlinx.coroutines.delay
                   modifier = Modifier
                       .layoutId("IVloadingIn")
 
-                       .fillMaxWidth(levelLoadingState)
+                      .fillMaxWidth(levelLoadingState)
                       //.fillMaxSize(levelLoadingState)
                       .height(36.dp),
                   painter = painterResource(id = R.drawable.indicator),

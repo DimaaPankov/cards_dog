@@ -29,7 +29,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.fortunetiasasger.exampale.R
 import com.fortunetiasasger.exampale.data.DateGamePersonTwo
-import com.fortunetiasasger.exampale.data.model.Stone
+import com.fortunetiasasger.exampale.data.models.Stone
 import com.fortunetiasasger.exampale.presentation.activity.MainActivity
 import com.fortunetiasasger.exampale.presentation.nav.Screen
 import com.fortunetiasasger.exampale.presentation.screens.startsession.viewmodel.ViewModelStartSession
