@@ -1,6 +1,7 @@
 package com.fortunetiasasger.exampale.presentation.screens.choosestones.view
 
 import android.util.Log
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -10,7 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
@@ -26,7 +29,9 @@ import com.fortunetiasasger.exampale.data.repository.StaticDate
 import com.fortunetiasasger.exampale.presentation.activity.MainActivity
 import com.fortunetiasasger.exampale.presentation.nav.Screen
 import com.fortunetiasasger.exampale.presentation.screens.choosestones.viewmodel.ViewModelChooseStone
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @Preview(showBackground = true)
@@ -40,39 +45,46 @@ import kotlinx.coroutines.delay
   class ScreenChooseStones(
       private val viewModel:ChooseStoneApi
   ) {
+      var isDontGoScreen = true
+
+
       @Composable
       fun ShowScreen() {
-          var levelLoadingState = viewModel.levelLoadingState.observeAsState(0f).value
+          val scope = rememberCoroutineScope()
+          val levelLoadingState by animateFloatAsState(
+              targetValue = viewModel.levelLoadingState.observeAsState(0f).value, label = ""
+          )
+
+        //  var levelLoadingState = viewModel.levelLoadingState.observeAsState(0f).value
           val clickedCraftState = viewModel.clickedCrafState.observeAsState(false).value
           val listStoneLeft = viewModel.listStoneLeft.observeAsState().value
           val listStoneRight = viewModel.listStoneRight.observeAsState().value
 
           if(clickedCraftState){
-              LaunchedEffect(true) {
-                  delay(500L)
-                  viewModel.clickedCrafState(false)
-      //               Log.d("test_1",DateGamePersonTwo.listCards.size.toString())
-                  if((viewModel.listCards.value?.size?:0) ==5){
-
-                      if(viewModel.personNomber.value == Person.ONE){
-                          viewModel.personNomber(Person.TWO)
-                          viewModel.levelLoadingState(0f)
-                              //    DateGamePersonTwo.listCards = mutableListOf()
-                      }else{
-                          MainActivity.navController.navigate(Screen.ScreenGameBegin.route)
-                          return@LaunchedEffect
-                      }
-
-                      MainActivity.navController.navigate(Screen.ScreenPlayers.route)
-                      return@LaunchedEffect
-
-                  }else {
-                      MainActivity.navController.navigate(Screen.ScreenSetupCards.route)
-                      return@LaunchedEffect
-                  }
-
-              }
+                if(viewModel.clickable.value != false) {
+                    viewModel.levelLoadingState(
+                        levelLoadingState + ChooseStoneApi.LEVEL_LOADING
+                    )
+                    listStoneLeft?.remove(viewModel.stoneLeft)
+                    listStoneRight?.remove(viewModel.stoneRight)
+                }
+              viewModel.clickable(false)
           }
+
+          if(clickedCraftState){
+              if(isDontGoScreen) {
+                  isDontGoScreen = false
+                scope.launch {
+                    delay(300)
+                    Log.d("test_22", StaticDate.listCardsNow().size.toString())
+                    MainActivity.navController.navigate(Screen.ScreenSetupCards.route)
+                }
+
+                      // viewModel.clickedCrafState(false)
+                  }
+              }
+
+
 
           ConstraintLayout(
               constraintSet = constraints,
@@ -90,14 +102,17 @@ import kotlinx.coroutines.delay
 
 
               PagerStone(
-                  listImg = listStoneLeft?.toList()?: listOf(),
+                  listImg =
+                  listStoneLeft?.toList()?: listOf(),
                   id = "ColumLeft",
-                  side = SidesStone.Lefr
+                  side = SidesStone.Lefr,
+                  viewModel
               )
               PagerStone(
                   listImg = listStoneRight?.toList()?: listOf(),
                   id = "ColumRight",
-                  side = SidesStone.Right
+                  side = SidesStone.Right,
+                  viewModel
               )
 
 
@@ -129,15 +144,10 @@ import kotlinx.coroutines.delay
                       .layoutId("IVclickCraft")
                       .fillMaxWidth(0.9f)
                       .clickable {
-                          if (!clickedCraftState) {
-                              listStoneLeft.remove(DateGamePersonTwo.stoneLeft)
-                              listStoneRight.remove(DateGamePersonTwo.stoneRight)
-                              viewModel.levelLoadingState(
-                                  levelLoadingState + ChooseStoneApi.LEVEL_LOADING
-                              )
-                          }
+                        //  if(viewModel.clickable.value!=false){
+                              viewModel.clickedCrafState(true)
+                          //}
 
-                          viewModel.clickedCrafState(true)
                       }
                       .height(70.dp),
                   painter = painterResource(id = R.drawable.craft),
@@ -185,7 +195,6 @@ import kotlinx.coroutines.delay
                   contentScale = ContentScale.Crop,
                   modifier = Modifier
                       .layoutId("IVloadingIn")
-
                       .fillMaxWidth(levelLoadingState)
                       //.fillMaxSize(levelLoadingState)
                       .height(36.dp),
@@ -217,8 +226,6 @@ import kotlinx.coroutines.delay
               top.linkTo(IVgameDrum.top, margin = 80.dp)
               end.linkTo(IVgameDrum.end, margin = 45.dp)
           }
-
-
 
           constrain(IVbackgroundBottom) {
               bottom.linkTo(parent.bottom)
@@ -265,7 +272,3 @@ import kotlinx.coroutines.delay
 
       }
   }
-
-
-
-

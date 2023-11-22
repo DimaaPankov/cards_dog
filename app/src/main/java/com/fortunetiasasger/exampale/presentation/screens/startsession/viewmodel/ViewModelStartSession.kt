@@ -3,10 +3,10 @@ package com.fortunetiasasger.exampale.presentation.screens.startsession.viewmode
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.fortunetiasasger.exampale.data.DateGamePersonTwo
+import com.fortunetiasasger.exampale.data.repository.StaticDataApi
 
 
-class ViewModelStartSession(val date: DateGamePersonTwo):ViewModel() {
+class ViewModelStartSession(val date: StaticDataApi):ViewModel() {
 
 
 

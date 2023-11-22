@@ -64,7 +64,6 @@ object ScreenLoading {
             ) {
                 Image(
                     modifier = Modifier
-
                         .fillMaxHeight(0.5f)
                         .fillMaxWidth(),
                     painter = painterResource(id = R.drawable.logo_main),

@@ -12,9 +12,8 @@ sealed class Screen(val route :String){
     object ScreenGamePirsonFirst : Screen("ScreenGamePirsonFirst")
     object ScreenGamePirsonSecond : Screen("ScreenGamePirsonSecond")
 
-
-
-    object ScreenGame : Screen("ScreenGamePersonTwo")
+    object ScreenGameWin : Screen("ScreenGameWin")
+   object ScreenGame : Screen("ScreenGamePersonTwo")
 
 
 

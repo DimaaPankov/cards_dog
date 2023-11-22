@@ -1,5 +1,6 @@
 package com.fortunetiasasger.exampale.presentation.screens.setup_cards.view
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -17,23 +18,47 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.fortunetiasasger.exampale.R
-import com.fortunetiasasger.exampale.data.DateGamePersonTwo
+import com.fortunetiasasger.exampale.data.models.Person
+import com.fortunetiasasger.exampale.data.repository.StaticDate
 import com.fortunetiasasger.exampale.presentation.activity.MainActivity
 import com.fortunetiasasger.exampale.presentation.nav.Screen
 import com.fortunetiasasger.exampale.presentation.screens.setup_cards.viewmodel.ViewModelSetup
+var i = 0
+class ScreenSetupCards( val viewModel:ViewModelSetup){
+  //  val viewModel  = ViewModelSetup(StaticDate)
 
-
-object ScreenSetupCards{
-    val viewModel  = ViewModelSetup()
 
         @Composable
         fun ShowScreen() {
+
+            // val showCard = viewModel.showCardState.observeAsState(R.drawable.all_cards0).value
+            Log.d("test_qqq",(++i).toString())
+
             val clickedBackState = viewModel.isClickedBackState.observeAsState(initial = false).value
-            val showCard = viewModel.showCardState.observeAsState(R.drawable.all_cards0).value
-            viewModel.showCardState(DateGamePersonTwo.getCard(DateGamePersonTwo.stoneLeft,DateGamePersonTwo.stoneRight))
-            if(clickedBackState){
-                MainActivity.navController.navigate(Screen.ScreenChooseStones.route)
-                viewModel.isClickedBackState(false)
+            viewModel.isClickedBackState(false)
+            val selectedCard = viewModel.selectedCard.value
+            Log.d("test_3",selectedCard.toString())
+
+
+           if(clickedBackState){
+                StaticDate.listCardsAdd(selectedCard?:0)
+                Log.d("test_3331",StaticDate.listCardsNow().size.toString())
+                if(StaticDate.listCardsNow().size==6){
+                    if(
+                    //viewModel.personNomber.value
+                        StaticDate.person == Person.ONE
+                    ){
+                        MainActivity.navController.navigate(Screen.ScreenPlayers.route)
+                        StaticDate.person = Person.TWO
+                        StaticDate.cardsLevel = 0f
+                    }else{
+                        MainActivity.navController.navigate(Screen.ScreenGameBegin.route)
+                    }
+
+                }else{
+                    MainActivity.navController.navigate(Screen.ScreenChooseStones.route)
+                }
+
             }
 
             Image(
@@ -60,7 +85,8 @@ object ScreenSetupCards{
 
                 Image(
                     painter = painterResource(
-                        id = showCard
+          //              id = showCard
+                        id = selectedCard?:0
                     ),
                     contentDescription = "",
                     modifier = Modifier
@@ -74,7 +100,8 @@ object ScreenSetupCards{
                     contentDescription = "",
                     modifier = Modifier
                         .clickable {
-                            DateGamePersonTwo.listCards.listCards.add(DateGamePersonTwo.getCard(DateGamePersonTwo.stoneLeft,DateGamePersonTwo.stoneRight))
+                            //viewModel.addListCards(selectedCard?:0)
+                           //.listCardsPersonFirst.add(selectedCard?:0)
                             viewModel.isClickedBackState(true)
                         }
                         .fillMaxHeight(0.15f)
@@ -123,5 +150,5 @@ object ScreenSetupCards{
 @Preview(showBackground = true)
 @Composable
 fun showFoure() {
-    ScreenSetupCards.ShowScreen()
+    ScreenSetupCards(ViewModelSetup(StaticDate)).ShowScreen()
 }

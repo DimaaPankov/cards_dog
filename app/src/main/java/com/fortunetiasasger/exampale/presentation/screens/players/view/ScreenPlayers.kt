@@ -24,35 +24,34 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.fortunetiasasger.exampale.R
-import com.fortunetiasasger.exampale.data.DateGamePersonTwo
 import com.fortunetiasasger.exampale.data.models.Person
+import com.fortunetiasasger.exampale.data.repository.StaticDate
 import com.fortunetiasasger.exampale.presentation.activity.MainActivity
 import com.fortunetiasasger.exampale.presentation.nav.Screen
+import com.fortunetiasasger.exampale.presentation.screens.loading.view.ScreenLoading.viewModel
 import com.fortunetiasasger.exampale.presentation.screens.players.viewmodel.ViewModelPlayers
 import com.fortunetiasasger.exampale.screens.setup_cards.com.fortunetiasasger.exampale.theme.fontFamaly
 
 @Preview
     @Composable
     fun showPlayers(){
-   ScreenPlayers(DateGamePersonTwo).ShowScreen()
+   ScreenPlayers(ViewModelPlayers(StaticDate)).ShowScreen()
     }
 
 
-class ScreenPlayers(val date: PlayersDateApi) {
-    val viewModel = ViewModelPlayers(date)
+class ScreenPlayers(val viewModel:ViewModelPlayers) {
+
 
     @Composable
     fun ShowScreen(){
 
         val playerOne =  viewModel.textPlayerOne.observeAsState(initial = "").value
-        val playerTwo =  viewModel.textPlayerTwo.observeAsState(initial = "").value
+     //   val playerTwo =  viewModel.textPlayerTwo.observeAsState(initial = "").value
         val clickedStartSate = viewModel.clickedStartState.observeAsState(initial = false).value
         val changePlayerOne:(String)->Unit = {
             viewModel.changePlayerOne(it)
         }
-        val changePlayerTwo:(String)->Unit = {
-            viewModel.changePlayerTwo(it)
-        }
+
         val changeStartSate = {
            viewModel.clickedStartState()
         }
@@ -64,9 +63,7 @@ class ScreenPlayers(val date: PlayersDateApi) {
         ScreenLogic(
             goStart = goStart,
             textOnePlayer = playerOne,
-            textTwoPlayer = playerTwo,
             changePlayerOne = changePlayerOne,
-            changePlayerTwo = changePlayerTwo,
             clickedStartSate = clickedStartSate,
             changeStateClickedStart = changeStartSate
         )
@@ -78,10 +75,8 @@ class ScreenPlayers(val date: PlayersDateApi) {
     fun ScreenLogic(
      goStart:()->Unit,
      textOnePlayer:String,
-     textTwoPlayer:String,
      clickedStartSate:Boolean,
      changePlayerOne:(String)->Unit,
-     changePlayerTwo:(String)->Unit,
      changeStateClickedStart:()->Unit
     ){
 
@@ -213,62 +208,64 @@ class ScreenPlayers(val date: PlayersDateApi) {
           )
           */
 
-        Text(
-              text =  if(DateGamePersonTwo.listCards.User == Person.ONE) {
-                  "1 player"
-              }else{
-                  "2 player"
-              }
-              , modifier = Modifier
-                  .layoutId("TVonePlayer")
-              ,fontSize =70.sp
-              ,color = Color.White
-              , fontFamily = fontFamaly
-          )
-
-        /*  Text(
-              text = "2 player"
-              ,modifier = Modifier
-               .layoutId("TVtwoPlayer")
-              ,fontSize =70.sp
-              ,color = Color.White
-              ,fontFamily = fontFamaly
-          )
-*/
-          TextField(
-              value = textOnePlayer,
-              modifier = Modifier
-                  .layoutId("ETplayerOne")
-                  .fillMaxWidth(0.8f)
-                  .fillMaxHeight(0.07f),
-              textStyle = TextStyle(fontSize=25.sp),
-              onValueChange = {newText ->
-                 // Date.nameUserOne = newText
-                  //firstName.value = newText
-                  changePlayerOne(newText)
-              }
-          )
-
-
-/*
-          TextField(
-              value = textTwoPlayer,
-              modifier = Modifier
-                  .layoutId("ETplayerTwo")
-                  .fillMaxWidth(0.8f)
-                  .fillMaxHeight(0.07f),
-              textStyle = TextStyle(fontSize=25.sp),
-              onValueChange = {newText ->
-                 // Date.nameUserOne = newText
-                 //secondName.value = newText
-                  changePlayerTwo(newText)
-              }
-          )
+/*  Text(
+        text=  if(DateGamePersonTwo.listCards.User == Person.ONE) {
+            "1 player"
+        }else{
+            "2 player"
+        }
+        , modifier = Modifier
+            .layoutId("TVonePlayer")
+        ,fontSize =70.sp
+        ,color = Color.White
+        , fontFamily = fontFamaly
+    )
 
  */
 
+  /*  Text(
+        text = "2 player"
+        ,modifier = Modifier
+         .layoutId("TVtwoPlayer")
+        ,fontSize =70.sp
+        ,color = Color.White
+        ,fontFamily = fontFamaly
+    )
+*/
+    TextField(
+        value = textOnePlayer,
+        modifier = Modifier
+            .layoutId("ETplayerOne")
+            .fillMaxWidth(0.8f)
+            .fillMaxHeight(0.07f),
+        textStyle = TextStyle(fontSize=25.sp),
+        onValueChange = {newText ->
+           // Date.nameUserOne = newText
+            //firstName.value = newText
+            changePlayerOne(newText)
+        }
+    )
 
-    }
+
+/*
+    TextField(
+        value = textTwoPlayer,
+        modifier = Modifier
+            .layoutId("ETplayerTwo")
+            .fillMaxWidth(0.8f)
+            .fillMaxHeight(0.07f),
+        textStyle = TextStyle(fontSize=25.sp),
+        onValueChange = {newText ->
+           // Date.nameUserOne = newText
+           //secondName.value = newText
+            changePlayerTwo(newText)
+        }
+    )
+
+*/
+
+
+}
 }
 
 

@@ -1,5 +1,6 @@
 package com.fortunetiasasger.exampale.presentation.screens.game_begin.view
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.fortunetiasasger.exampale.R
+import com.fortunetiasasger.exampale.data.repository.StaticDate
 import com.fortunetiasasger.exampale.presentation.activity.MainActivity
 import com.fortunetiasasger.exampale.presentation.nav.Screen
 import com.fortunetiasasger.exampale.presentation.screens.game_begin.viewmodel.ViewModelBegin
@@ -32,6 +34,7 @@ class ScreenGameBegin {
 
         val viewModel  = ViewModelBegin()
         val clickedBeginState = viewModel.isClickedBeginState.observeAsState(initial = false).value
+
 
         if(clickedBeginState){
             MainActivity.navController.navigate(Screen.ScreenGame.route)

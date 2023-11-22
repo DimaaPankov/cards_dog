@@ -13,12 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.fortunetiasasger.exampale.data.DateGamePersonTwo
+import com.fortunetiasasger.exampale.data.repository.StaticDate
+import com.fortunetiasasger.exampale.utils.getCard
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PagerStone(listImg: List<Int>,id:String,side: SidesStone){
+fun PagerStone(listImg: List<Int>,id:String,side: SidesStone
+               ,viewModel:ChooseStoneApi
+){
     val pagerState = rememberPagerState(pageCount = {
         listImg.size
     })
@@ -28,13 +31,18 @@ fun PagerStone(listImg: List<Int>,id:String,side: SidesStone){
             .height(180.dp)
             .layoutId(id),
         state = pagerState) { page ->
+    //    Log.d("test_page",listImg[page].toString())
         if(side == SidesStone.Lefr) {
-            DateGamePersonTwo.stoneLeft = listImg[page]
+         //   viewModel.stoneLeft (listImg[page])
+            StaticDate.stoneLeft = listImg[page]
         }else{
-            DateGamePersonTwo.stoneRight = listImg[page]
+          //  viewModel.stoneRight(listImg[page])
+            StaticDate.stoneRight = listImg[page]
         }
-
-        Log.d("test_page",page.toString())
+        //viewModel.cardNow(getCard(viewModel.stoneLeft,viewModel.stoneRight))
+        StaticDate.cardNow = getCard(viewModel.stoneLeft,viewModel.stoneRight)
+        Log.d("test_pager",getCard(viewModel.stoneLeft,viewModel.stoneRight).toString())
+        Log.d("test_stone_l",page.toString())
 
         Image(
             painter = painterResource(

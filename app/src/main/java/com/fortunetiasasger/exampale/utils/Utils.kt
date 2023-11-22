@@ -1,5 +1,6 @@
 package com.fortunetiasasger.exampale.utils
 
+import android.util.Log
 import com.fortunetiasasger.exampale.R
 import com.fortunetiasasger.exampale.data.models.Stone
 import kotlin.random.Random
@@ -126,6 +127,10 @@ fun getCard(stoneL: Int, stoneR: Int): Int {
     val YELLOW = R.drawable.yellow
     val BLUE = R.drawable.blue
 
+    Log.d("test_stone_left",stoneImgToString(stoneL).toString())
+    Log.d("test_stone_right",stoneImgToString(stoneR).toString())
+
+
     return when {
         (stoneL == SERENY && stoneR == SERENY) -> R.drawable.all_card
         (stoneL == SERENY && stoneR == GREEN) -> R.drawable.all_cards0
@@ -163,7 +168,17 @@ fun getCard(stoneL: Int, stoneR: Int): Int {
         (stoneL == BLUE && stoneR == ORANGE) -> R.drawable.all_cards16
         (stoneL == BLUE && stoneR == YELLOW) -> R.drawable.all_card_23
         (stoneL == BLUE && stoneR == SERENY) -> R.drawable.all_cards_0035
-        else -> R.drawable.all_cards_0035
+        else -> R.drawable.all_card_23
 
     }
+}
+
+fun stoneImgToString(i:Int):String = when(i){
+        R.drawable.purple -> "SERENY"
+        R.drawable.green -> "GREEN"
+        R.drawable.light_purple -> "PINK"
+        R.drawable.orange -> "ORANGE"
+        R.drawable.yellow -> "YELLOW"
+        R.drawable.blue -> "BLUE"
+        else -> "else"
 }

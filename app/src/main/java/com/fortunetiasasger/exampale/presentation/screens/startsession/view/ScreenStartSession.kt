@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.fortunetiasasger.exampale.R
-import com.fortunetiasasger.exampale.data.DateGamePersonTwo
 import com.fortunetiasasger.exampale.data.models.Stone
+import com.fortunetiasasger.exampale.data.repository.StaticDate
 import com.fortunetiasasger.exampale.presentation.activity.MainActivity
 import com.fortunetiasasger.exampale.presentation.nav.Screen
 import com.fortunetiasasger.exampale.presentation.screens.startsession.viewmodel.ViewModelStartSession
@@ -44,7 +44,7 @@ fun ShowStartSession() {
 
 object ScreenStartSession {
 
-    val viewModel = ViewModelStartSession(date = DateGamePersonTwo)
+    val viewModel = ViewModelStartSession( StaticDate)
 
 
     @Composable
@@ -149,7 +149,7 @@ object ScreenStartSession {
                     + fadeIn(),
             modifier = Modifier.fillMaxSize()
         ) {
-            visibilityComponent(DateGamePersonTwo.listStonesCategory)
+            visibilityComponent(StaticDate.listStonesCategory)
         }
     }
 
@@ -421,7 +421,8 @@ object ScreenStartSession {
 @Composable
 fun showaaaa(){
     ScreenStartSession.visibilityComponent(
-        DateGamePersonTwo.listStonesCategory
+        //error error
+        StaticDate.listStonesCategory
     )
 }
 
