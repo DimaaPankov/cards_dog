@@ -1,4 +1,4 @@
-package com.fortunetiasasger.exampale.presentation.screens.gamepersonsecond.use_case
+package com.fortunetiasasger.exampale.presentation.screens.game_person_second.use_case
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -14,6 +14,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fortunetiasasger.exampale.R
+import com.fortunetiasasger.exampale.data.models.Person
+import com.fortunetiasasger.exampale.data.repository.StaticDate
 
 @Composable
 @Preview
@@ -38,7 +40,9 @@ fun Background_second(){
         contentAlignment = Alignment.Center
     ){
         Image(
-            painter = painterResource(id = R.drawable.rubashka_kart),
+            painter = painterResource(id =
+                StaticDate.cardImgDropedPersonFirst
+            ),
             modifier = Modifier
                 .width(225.dp)
                 .height(305.dp)

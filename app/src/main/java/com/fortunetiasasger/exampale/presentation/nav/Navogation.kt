@@ -16,10 +16,11 @@ import com.fortunetiasasger.exampale.presentation.screens.loading.view.ScreenLoa
 import com.fortunetiasasger.exampale.presentation.screens.score.view.ScreenScore
 import com.fortunetiasasger.exampale.presentation.screens.start.view.ScreenStart
 import com.fortunetiasasger.exampale.presentation.screens.startsession.view.ScreenStartSession
-import com.fortunetiasasger.exampale.presentation.screens.gamepersonsecond.view.ScreenGamePersonSecond
-import com.fortunetiasasger.exampale.presentation.screens.players.viewmodel.ViewModelPlayers
+import com.fortunetiasasger.exampale.presentation.screens.game_person_second.view.ScreenGamePersonSecond
+import com.fortunetiasasger.exampale.presentation.screens.game_person_second.viewmodel.ViewModelPlayers
 import com.fortunetiasasger.exampale.presentation.screens.setup_cards.viewmodel.ViewModelSetup
-import com.fortunetiasasger.exampale.presentation.screens.win.view.ScreenWin
+import com.fortunetiasasger.exampale.presentation.screens.winning_a_move.view.ScreenWinMove
+import com.fortunetiasasger.exampale.presentation.screens.winning_game.view.ScreenWinningGame
 
 
 @Composable
@@ -28,6 +29,7 @@ fun Navigation(){
     NavHost(navController = navController, startDestination = Screen.ScreenLoading.route){
 
         composable(route = Screen.ScreenLoading.route){
+
             MainActivity.navController = navController
             ScreenLoading.ShowScreen()
 
@@ -91,9 +93,13 @@ fun Navigation(){
         composable(
             route = Screen.ScreenGameWin.route
         ){
-            ScreenWin.ShowScreen()
+            ScreenWinMove.ShowScreen()
         }
-
+        composable(
+            route = Screen.ScreenWinningGame.route
+        ){
+            ScreenWinningGame.ShowScreen()
+        }
     }
 
 }

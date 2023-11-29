@@ -1,4 +1,4 @@
-package com.fortunetiasasger.exampale.presentation.screens.screen_util.check_animation
+package com.fortunetiasasger.exampale.presentation.screens.screen_util.check_animation.model
 
 object OffSetX {
     val one = -75

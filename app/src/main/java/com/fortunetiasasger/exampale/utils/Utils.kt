@@ -2,48 +2,66 @@ package com.fortunetiasasger.exampale.utils
 
 import android.util.Log
 import com.fortunetiasasger.exampale.R
+import com.fortunetiasasger.exampale.data.models.Person
 import com.fortunetiasasger.exampale.data.models.Stone
-import kotlin.random.Random
-
-private fun sumOfElements(sheet: MutableList<Int>): Int {
-    var sum = 0
-    for (row in sheet) {
-        sum += row
-    }
-    return sum
-}
-var erorrRandomCountStone = listOf(listOf(1,2,1,4,2,2),listOf(3,1,1,2,3,2)
-    ,listOf(4,4,1,1,1,1),listOf(2,2,2,2,1,3),listOf(3,2,1,3,2,1))
 
 
 fun generateListWithMaxSum(): List<Int> {
-    val resultList = mutableListOf<Int>()
-
-    // Function to generate a random integer between 1 and 4
-    fun randomInt(): Int = Random.nextInt(1, 4)
-
-    // Generate the first five elements
-    for (i in 1..5) {
-        val remainingSize = 6 - resultList.size
-        val maxAllowedValue = 12 - resultList.sum()
-        if (remainingSize * 4 <= maxAllowedValue) {
-            // If remaining slots can be filled with 4's, add them
-            resultList.addAll(List(remainingSize) { 4 })
-            break
-        } else {
-            // Otherwise, add a random number between 1 and 4
-            resultList.add(randomInt())
-        }
-    }
-
-    // Ensure the last element doesn't exceed the remaining sum
-    val remainingSum = 12 - resultList.sum()
-    resultList.add(if (remainingSum >= 4) 4 else Random.nextInt(1, remainingSum + 1))
-
-    return if(sumOfElements(resultList) == 12)resultList else { erorrRandomCountStone.random()}
+    val erorrRandomCountStone = listOf(
+        listOf(1, 2, 1, 4, 2, 2),
+        listOf(3, 1, 1, 2, 3, 2),
+        listOf(4, 4, 1, 1, 1, 1),
+        listOf(2, 2, 2, 2, 1, 3),
+        listOf(3, 2, 1, 3, 2, 1),
+        listOf(4, 1, 4, 3, 3, 1),
+        listOf(1, 4, 2, 1, 2, 2),
+        listOf(3, 1, 4, 2, 1, 1),
+        listOf(1, 3, 2, 3, 1, 2),
+        listOf(4, 2, 1, 4, 1, 2),
+        listOf(2, 3, 1, 1, 4, 1),
+        listOf(3, 4, 2, 1, 1, 1),
+        listOf(1, 2, 3, 4, 1, 1),
+        listOf(4, 3, 4, 3, 1, 1),
+        listOf(2, 1, 1, 2, 3, 3),
+        listOf(3, 4, 2, 3, 1, 1),
+        listOf(1, 3, 1, 2, 4, 1),
+        listOf(4, 2, 4, 1, 1, 2),
+        listOf(2, 1, 3, 3, 2, 1),
+        listOf(3, 4, 1, 2, 1, 1),
+        listOf(1, 2, 4, 3, 3, 1),
+        listOf(4, 3, 3, 1, 2, 1),
+        listOf(2, 1, 2, 4, 1, 2),
+        listOf(3, 4, 1, 2, 1, 1),
+        listOf(1, 2, 3, 2, 3, 1),
+        listOf(4, 1, 4, 2, 3, 2),
+        listOf(2, 3, 1, 1, 2, 3),
+        listOf(3, 4, 2, 4, 1, 1),
+        listOf(1, 3, 1, 2, 3, 1),
+        listOf(4, 2, 4, 1, 3, 1),
+        listOf(2, 1, 3, 3, 1, 1),
+        listOf(3, 4, 1, 2, 1, 2),
+        listOf(1, 2, 4, 3, 4, 0),
+        listOf(4, 3, 3, 1, 2, 1),
+        listOf(2, 1, 2, 4, 2, 1),
+        listOf(3, 4, 1, 3, 1, 1),
+        listOf(1, 2, 3, 2, 1, 3),
+        listOf(4, 1, 4, 2, 3, 2),
+        listOf(2, 3, 1, 1, 2, 3),
+        listOf(3, 4, 2, 4, 1, 1),
+        listOf(1, 3, 1, 2, 2, 2),
+        listOf(4, 2, 4, 1, 3, 1),
+        listOf(2, 1, 3, 3, 1, 1),
+        listOf(3, 4, 1, 2, 1, 2),
+        listOf(1, 2, 4, 3, 3, 1),
+        listOf(4, 3, 3, 1, 2, 1),
+        listOf(2, 1, 2, 4, 3, 0),
+        listOf(3, 4, 1, 3, 1, 1),
+        listOf(1, 2, 3, 2, 3, 1)
+    )
+    return erorrRandomCountStone.random()
 }
 
-fun listStonesCategory():List<Stone>{
+fun listStonesCategoryFirst():List<Stone>{
 
     val listCategryStone = listOf(
         R.drawable.blue,
@@ -81,6 +99,47 @@ fun listStonesCategory():List<Stone>{
             listCountStones[5]
         )
   )
+}
+
+fun listStonesCategorySecond():List<Stone>{
+
+    val listCategryStone = listOf(
+        R.drawable.blue,
+        R.drawable.purple,
+        R.drawable.green,
+        R.drawable.orange,
+        R.drawable.light_purple,
+        R.drawable.yellow,
+
+    )
+    val listCountStones = generateListWithMaxSum()
+
+    return  listOf<Stone>(
+        Stone(
+            listCategryStone.random(),
+            listCountStones[0]
+        ),
+        Stone(
+            listCategryStone.random(),
+            listCountStones[1]
+        ),
+        Stone(
+            listCategryStone.random(),
+            listCountStones[2]
+        ),
+        Stone(
+            listCategryStone.random(),
+            listCountStones[3]
+        ),
+        Stone(
+            listCategryStone.random(),
+            listCountStones[4]
+        ),
+        Stone(
+            listCategryStone.random(),
+            listCountStones[5]
+        )
+    )
 }
 
 
@@ -182,3 +241,70 @@ fun stoneImgToString(i:Int):String = when(i){
         R.drawable.blue -> "BLUE"
         else -> "else"
 }
+
+data class PointsCards(val img:Int, val attac:Int, val protectetion:Int)
+
+val listCardPointd = listOf(
+    PointsCards(R.drawable.all_card,4,2),
+    PointsCards(R.drawable.all_card_23,3,3),
+    PointsCards(R.drawable.all_cards0,3,5),
+    PointsCards(R.drawable.all_cards1,1,5),
+    PointsCards(R.drawable.all_cards2,1,5),
+    PointsCards(R.drawable.all_cards3,1,4),
+    PointsCards(R.drawable.all_cards4,4,5),
+    PointsCards(R.drawable.all_cards6,4,1),
+    PointsCards(R.drawable.all_cards7,4,6),
+    PointsCards(R.drawable.all_cards8,6,5),
+    PointsCards(R.drawable.all_cards_0009,6,4),
+    PointsCards(R.drawable.all_cards_0010,5,2),
+    PointsCards(R.drawable.all_cards_0011,5,1),
+    PointsCards(R.drawable.all_cards_0012,5,6),
+    PointsCards(R.drawable.all_cards_0013,5,4),
+    PointsCards(R.drawable.all_cards_0014,3,1),
+    PointsCards(R.drawable.all_cards_0015,6,1),
+    PointsCards(R.drawable.all_cards16,6,3),
+    PointsCards(R.drawable.all_cards_0018,6,2),
+    PointsCards(R.drawable.all_cards_0017,6,6),
+    PointsCards(R.drawable.all_cards_0019,5,5),
+    PointsCards(R.drawable.all_cards_0020,5,3),
+    PointsCards(R.drawable.all_cards_0021,4,3),
+    PointsCards(R.drawable.all_cards_0022,4,4),
+    PointsCards(R.drawable.all_cards_0024,3,6),
+    PointsCards(R.drawable.all_cards_0025,3,4),
+    PointsCards(R.drawable.all_cards_0026,3,2),
+    PointsCards(R.drawable.all_cards_0027,2,1),
+    PointsCards(R.drawable.all_cards_0028,2,2),
+    PointsCards(R.drawable.all_cards_0029,2,3),
+    PointsCards(R.drawable.all_cards_0030,2,4),
+    PointsCards(R.drawable.all_cards_0031,1,1),
+    PointsCards(R.drawable.all_cards_0032,1,6),
+    PointsCards(R.drawable.all_cards_0033,2,6),
+    PointsCards(R.drawable.all_cards_0034,2,5),
+    PointsCards(R.drawable.all_cards_0035,1,2)
+    )
+
+fun whoWin(imgAttack:Int, imgProtection:Int):Person {
+    val attack = getPointImg(imgAttack)
+    val protection = getPointImg(imgProtection)
+
+   return when{
+        attack.attac > protection.protectetion -> Person.ONE
+        attack.attac > protection.protectetion -> Person.TWO
+        attack.attac == protection.protectetion -> Person.BOTH
+        else -> Person.TWO
+        }
+    }
+
+
+
+fun getPointImg(img:Int):PointsCards{
+        listCardPointd.forEach{
+            if(it.img == img){
+                return it
+            }
+        }
+return PointsCards(0,0,0)
+}
+
+
+

@@ -14,6 +14,8 @@ sealed class Screen(val route :String){
 
     object ScreenGameWin : Screen("ScreenGameWin")
    object ScreenGame : Screen("ScreenGamePersonTwo")
+    object ScreenWinningGame : Screen("ScreenWinningGame")
+
 
 
 

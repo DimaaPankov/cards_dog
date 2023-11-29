@@ -27,15 +27,16 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.fortunetiasasger.exampale.R
+import com.fortunetiasasger.exampale.data.models.Person
 import com.fortunetiasasger.exampale.data.repository.StaticDate
-import com.fortunetiasasger.exampale.presentation.screens.screen_util.check_animation.OffSetX
-import com.fortunetiasasger.exampale.presentation.screens.screen_util.check_animation.checkCardsAnimation
+import com.fortunetiasasger.exampale.presentation.screens.screen_util.check_animation.model.OffSetX
+import com.fortunetiasasger.exampale.presentation.screens.screen_util.check_animation.view.checkCardsAnimation
 import com.fortunetiasasger.exampale.screens.setup_cards.com.fortunetiasasger.exampale.theme.fontFamaly
 import kotlinx.coroutines.delay
 
 @Composable
- fun Orientation_cards(rotationCard:Int,actionClickDrop:()->Unit) {
-   // val actionClickDrop = actionClickDrop
+ fun Orientation_cards(person:Person,actionClickDrop:()->Unit) {
+
     var visibility by remember {
         mutableStateOf(true)
     }
@@ -44,6 +45,13 @@ import kotlinx.coroutines.delay
         delay(1000)
         visibility = false
     }
+
+val cardsListNow = if(person == Person.ONE){
+    StaticDate.listCardsPersonFirst
+}else{
+    StaticDate.listCardsPersonSecond
+
+}
 
     ConstraintLayout(
         constraintSet = constraintsEight(),
@@ -60,56 +68,66 @@ import kotlinx.coroutines.delay
             contentDescription = "logo",
         )
 
+        if(cardsListNow.size >= 1) {
+            checkCardsAnimation(
+                img = StaticDate.listCardsNow()[0],
+                layoutId = "IVoneCard",
+                person = person,
+                ofSetXDefault = OffSetX.one,
+                actionDrop = actionClickDrop
+            )
+        }
 
-        checkCardsAnimation(
-            img = StaticDate.listCardsPersonFirst[0],
-            layoutId = "IVoneCard",
-            rotationCard = rotationCard,
-            ofSetXDefault = OffSetX.one,
-            actionDrop = actionClickDrop
-        )
+        if(cardsListNow.size >= 2) {
+            checkCardsAnimation(
+                StaticDate.listCardsNow()[1],
+                layoutId = "IVtwoCard",
+                person = person,
+                ofSetXDefault = OffSetX.two,
+                actionDrop = actionClickDrop
+            )
+        }
 
-        checkCardsAnimation(
-            StaticDate.listCardsPersonFirst[1],
-            layoutId = "IVtwoCard",
-            rotationCard = rotationCard,
-            ofSetXDefault = OffSetX.two,
-            actionDrop = actionClickDrop
-        )
+        if(cardsListNow.size >= 3) {
+            checkCardsAnimation(
+                StaticDate.listCardsNow()[2],
+                layoutId = "IVthreeCard",
+                person = person,
+                ofSetXDefault = OffSetX.three,
+                actionDrop = actionClickDrop
+            )
+        }
 
+        if(cardsListNow.size >= 4) {
+            checkCardsAnimation(
+                StaticDate.listCardsNow()[3],
+                layoutId = "IVfoureCard",
+                person = person,
+                ofSetXDefault = OffSetX.foure,
+                actionDrop = actionClickDrop
+            )
+        }
 
-        checkCardsAnimation(
-            StaticDate.listCardsPersonFirst[2],
-            layoutId = "IVthreeCard",
-            rotationCard = rotationCard,
-            ofSetXDefault = OffSetX.three,
-            actionDrop = actionClickDrop
-        )
+        if(cardsListNow.size >= 5) {
+            checkCardsAnimation(
+                StaticDate.listCardsNow()[4],
+                layoutId = "IVfiveCard",
+                person = person,
+                ofSetXDefault = OffSetX.five,
+                actionDrop = actionClickDrop
+            )
+        }
 
+        if(cardsListNow.size >= 6) {
+            checkCardsAnimation(
+                StaticDate.listCardsNow()[5],
+                layoutId = "IVsixCard",
+                person = person,
+                ofSetXDefault = OffSetX.six,
+                actionDrop = actionClickDrop
+            )
+        }
 
-        checkCardsAnimation(
-            StaticDate.listCardsPersonFirst[3],
-            layoutId = "IVfoureCard",
-            rotationCard = rotationCard,
-            ofSetXDefault = OffSetX.foure,
-            actionDrop = actionClickDrop
-        )
-
-        checkCardsAnimation(
-            StaticDate.listCardsPersonFirst[4],
-            layoutId = "IVfiveCard",
-            rotationCard = rotationCard,
-            ofSetXDefault = OffSetX.five,
-            actionDrop = actionClickDrop
-        )
-
-        checkCardsAnimation(
-            StaticDate.listCardsPersonFirst[5],
-            layoutId = "IVsixCard",
-            rotationCard = rotationCard,
-            ofSetXDefault = OffSetX.six,
-            actionDrop = actionClickDrop
-        )
 
         Text(
             text = "First persone 's move",

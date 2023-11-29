@@ -1,4 +1,4 @@
-package com.fortunetiasasger.exampale.presentation.screens.win.usecases
+package com.fortunetiasasger.exampale.presentation.screens.winning_a_move.usecases
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image

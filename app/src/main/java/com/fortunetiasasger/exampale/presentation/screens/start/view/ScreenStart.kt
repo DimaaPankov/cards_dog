@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -25,15 +24,9 @@ import com.fortunetiasasger.exampale.screens.setup_cards.com.fortunetiasasger.ex
 
 
 object ScreenStart {
+    val viewModel = ViewModelStart()
     @Composable
     fun ShowScreen() {
-
-        val viewModel  = ViewModelStart()
-        val clickedStartState = viewModel.isClickedStartState.observeAsState(initial = false).value
-
-        if(clickedStartState){
-            MainActivity.navController.navigate(Screen.ScreenPlayers.route)
-        }
 
         Image(
             painter = painterResource(id = R.drawable.background),
@@ -86,7 +79,7 @@ object ScreenStart {
                     .fillMaxWidth(0.9f)
                     .fillMaxHeight(0.1f)
                     .clickable {
-                               viewModel.isClickedStartState(true)
+                               viewModel.clickStart()
                     },
                 painter = painterResource(id = R.drawable.click_to_start),
                 contentDescription = ""

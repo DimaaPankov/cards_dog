@@ -15,7 +15,11 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
@@ -44,7 +48,7 @@ fun ShowStartSession() {
 
 object ScreenStartSession {
 
-    val viewModel = ViewModelStartSession( StaticDate)
+    val viewModel = ViewModelStartSession(StaticDate)
 
 
     @Composable
@@ -52,11 +56,11 @@ object ScreenStartSession {
         val clickedStart = viewModel.clickedStartState.observeAsState(false).value
 
         ShowScreen(visibility = clickedStart)
-        if(clickedStart){
-            LaunchedEffect(true ){
-                delay(3000)
-              MainActivity.navController.navigate(Screen.ScreenChooseStones.route)
-        }
+        if (clickedStart) {
+            LaunchedEffect(true) {
+                delay(2000)
+                MainActivity.navController.navigate(Screen.ScreenChooseStones.route)
+            }
 
         }
 
@@ -89,20 +93,6 @@ object ScreenStartSession {
             )
 
 
-
-            Image(
-                modifier = Modifier
-                    .layoutId("IVback")
-                    .fillMaxWidth(0.2f)
-                    .fillMaxHeight(0.1f)
-                    .clickable {
-                        viewModel.visibaleState(true)
-                    }
-                ,
-                painter = painterResource(id = R.drawable.reset),
-                contentDescription = ""
-            )
-
             AnimatedVisibility(
                 visible = !visibility,
                 modifier = Modifier
@@ -121,15 +111,7 @@ object ScreenStartSession {
                 )
             }
 
-            Image(
-                modifier = Modifier
-                    .layoutId("IVsound")
-                    .fillMaxWidth(0.2f)
-                    .fillMaxHeight(0.1f)
-                    .height(60.dp),
-                painter = painterResource(id = R.drawable.sound_and_music_on),
-                contentDescription = ""
-            )
+
 
             Image(
                 modifier = Modifier
@@ -142,16 +124,9 @@ object ScreenStartSession {
             )
 
         }
-        AnimatedVisibility(
-            visible = visibility,
-            enter = slideInVertically()
-                    + expandVertically()
-                    + fadeIn(),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            visibilityComponent(StaticDate.listStonesCategory)
-        }
+        visibilityComponent(StaticDate.listStonesCategory,visibility)
     }
+
 
     fun constraints() = ConstraintSet {
         val IVgoSelectScreen = createRefFor("IVgoSelectScreen")
@@ -292,8 +267,42 @@ object ScreenStartSession {
 
 
     @Composable
-    fun visibilityComponent(listStones:List<Stone>) {
+    fun visibilityComponent(listStones: List<Stone>,visibility:Boolean) {
 
+        var visibilityOne by remember {
+            mutableStateOf(false)
+        }
+
+        var visibilityTwo by remember {
+            mutableStateOf(false)
+        }
+        var visibilityThree by remember {
+            mutableStateOf(false)
+        }
+        var visibilityFoure by remember {
+            mutableStateOf(false)
+        }
+        var visibilityFive by remember {
+            mutableStateOf(false)
+        }
+        var visibilitySix by remember {
+            mutableStateOf(false)
+        }
+if(visibility)
+        LaunchedEffect(true) {
+            visibilityTwo = true
+            delay(200)
+            visibilityOne = true
+            delay(200)
+            visibilityThree = true
+            delay(200)
+            visibilityFoure = true
+            delay(200)
+            visibilityFive = true
+            delay(200)
+            visibilitySix = true
+
+        }
 
         ConstraintLayout(
             constraintSet = constraintStone(),
@@ -312,117 +321,186 @@ object ScreenStartSession {
                 contentDescription = ""
             )
 
+
+            AnimatedVisibility(
+                visible = visibilityOne,
+                modifier = Modifier
+                    .fillMaxWidth(0.1f)
+                    .fillMaxHeight(0.06f)
+                    .layoutId("IVslotOne"),
+                        enter = slideInVertically()
+                        + expandVertically()
+                        + fadeIn()
+            ) {
                 Image(
                     painter = painterResource(
                         id = listStones[0].img
                     ), contentDescription = "one", modifier = Modifier
-                        .fillMaxWidth(0.1f)
-                        .fillMaxHeight(0.06f)
-                        .layoutId("IVslotOne")
-                )
+                        .fillMaxWidth()
+                        .fillMaxHeight()
 
+                )
+            }
+            AnimatedVisibility(
+                visible = visibilityTwo,
+                modifier = Modifier
+                    .fillMaxWidth(0.1f)
+                    .fillMaxHeight(0.06f)
+                    .layoutId("IVslotTwo")
+                ,
+                enter = slideInVertically()
+                        + expandVertically()
+                        + fadeIn()
+            ) {
                 Image(
                     painter = painterResource(
-                        id =listStones[1].img
+                        id = listStones[1].img
                     ), contentDescription = "one", modifier = Modifier
-                        .fillMaxWidth(0.1f)
-                        .fillMaxHeight(0.06f)
-                        .layoutId("IVslotTwo")
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+
                 )
+            }
+            AnimatedVisibility(
+                visible = visibilityThree,
+                modifier = Modifier
+                    .fillMaxWidth(0.1f)
+                    .fillMaxHeight(0.06f)
+                    .layoutId("IVslotThree"),
+                enter = slideInVertically()
+                        + expandVertically()
+                        + fadeIn()
+
+            ) {
                 Image(
                     painter = painterResource(
                         id = listStones[2].img
                     ), contentDescription = "one", modifier = Modifier
-                        .fillMaxWidth(0.1f)
-                        .fillMaxHeight(0.06f)
-                        .layoutId("IVslotThree")
+                        .fillMaxWidth()
+                        .fillMaxHeight()
                 )
+            }
+            AnimatedVisibility(
+                visible = visibilityFoure,
+                modifier = Modifier
+                    .fillMaxWidth(0.1f)
+                    .fillMaxHeight(0.06f)
+                    .layoutId("IVslotFoure"),
+                enter = slideInVertically()
+                        + expandVertically()
+                        + fadeIn()
+
+            ) {
                 Image(
                     painter = painterResource(
                         id = listStones[3].img
                     ), contentDescription = "one", modifier = Modifier
-                        .fillMaxWidth(0.1f)
-                        .fillMaxHeight(0.06f)
-                        .layoutId("IVslotFoure")
+                        .fillMaxWidth()
+                        .fillMaxHeight()
                 )
+            }
+            AnimatedVisibility(
+                visible = visibilityFive,
+                modifier = Modifier
+                    .fillMaxWidth(0.1f)
+                    .fillMaxHeight(0.06f)
+                    .layoutId("IVslotFive"),
+                enter = slideInVertically()
+                        + expandVertically()
+                        + fadeIn()
+
+            ) {
                 Image(
                     painter = painterResource(
                         id = listStones[4].img
                     ), contentDescription = "one", modifier = Modifier
-                        .fillMaxWidth(0.1f)
-                        .fillMaxHeight(0.06f)
-                        .layoutId("IVslotFive")
+                        .fillMaxWidth()
+                        .fillMaxHeight()
                 )
+            }
+            AnimatedVisibility(
+                visible = visibilitySix,
+                modifier = Modifier
+                    .fillMaxWidth(0.1f)
+                    .fillMaxHeight(0.06f)
+                    .layoutId("IVslotSix"),
+                enter = slideInVertically()
+                        + expandVertically()
+                        + fadeIn()
+            ) {
                 Image(
                     painter = painterResource(
                         id = listStones[5].img
                     ), contentDescription = "one", modifier = Modifier
-                        .fillMaxWidth(0.1f)
-                        .fillMaxHeight(0.06f)
-                        .layoutId("IVslotSix")
-                )
+                        .fillMaxWidth()
+                        .fillMaxHeight()
 
-                Text(
-                    text = listStones[0].count.toString(),
-                    fontSize = 15.sp,
-                    color = colorResource(id = R.color.white),
-                    modifier = Modifier
-                        .fillMaxWidth(0.1f)
-                        .fillMaxHeight(0.06f)
-                        .layoutId("TVcountOne")
                 )
-
-                Text(
-                    text = listStones[1].count.toString(),
-                    fontSize = 15.sp,
-                    color = colorResource(id = R.color.white), modifier = Modifier
-                        .fillMaxWidth(0.1f)
-                        .fillMaxHeight(0.06f)
-                        .layoutId("TVcountTwo")
-                )
-                Text(
-                    text = listStones[2].count.toString(),
-                    fontSize = 15.sp,
-                    color = colorResource(id = R.color.white), modifier = Modifier
-                        .fillMaxWidth(0.1f)
-                        .fillMaxHeight(0.06f)
-                        .layoutId("TVcountThree")
-                )
-                Text(
-                    text = listStones[3].count.toString(),
-                    fontSize = 17.sp,
-                    color = colorResource(id = R.color.white), modifier = Modifier
-                        .wrapContentSize()
-                        .layoutId("TVcountFoure")
-                )
-                Text(
-                    text = listStones[4].count.toString(),
-                    fontSize = 15.sp,
-                    color = colorResource(id = R.color.white), modifier = Modifier
-                        .fillMaxWidth(0.1f)
-                        .fillMaxHeight(0.06f)
-                        .layoutId("TVcountFive")
-                )
-                Text(
-                    text = listStones[5].count.toString(),
-                    fontSize = 15.sp,
-                    color = colorResource(id = R.color.white), modifier = Modifier
-                        .fillMaxWidth(0.1f)
-                        .fillMaxHeight(0.06f)
-                        .layoutId("TVcountSix")
-                )
-
             }
+
+
+            Text(
+                text = listStones[0].count.toString(),
+                fontSize = 15.sp,
+                color = colorResource(id = R.color.white),
+                modifier = Modifier
+                    .alpha(if(!visibilityOne) 0f else 1f)
+                    .wrapContentSize()
+                    .layoutId("TVcountOne")
+            )
+
+            Text(
+                text = listStones[1].count.toString(),
+                fontSize = 15.sp,
+                color = colorResource(id = R.color.white), modifier = Modifier
+                    .wrapContentSize()
+                    .alpha(if(!visibilityTwo) 0f else 1f)
+                    .layoutId("TVcountTwo")
+            )
+            Text(
+                text = listStones[2].count.toString(),
+                fontSize = 15.sp,
+                color = colorResource(id = R.color.white), modifier = Modifier
+                    .wrapContentSize()
+                    .alpha(if(!visibilityThree) 0f else 1f)
+                    .layoutId("TVcountThree")
+            )
+            Text(
+                text = listStones[3].count.toString(),
+                fontSize = 17.sp,
+                color = colorResource(id = R.color.white), modifier = Modifier
+                    .wrapContentSize()
+                    .alpha(if(!visibilityFoure) 0f else 1f)
+                    .layoutId("TVcountFoure")
+            )
+            Text(
+                text = listStones[4].count.toString(),
+                fontSize = 15.sp,
+                color = colorResource(id = R.color.white), modifier = Modifier
+                    .wrapContentSize()
+                    .alpha(if(!visibilityFive) 0f else 1f)
+                    .layoutId("TVcountFive")
+            )
+            Text(
+                text = listStones[5].count.toString(),
+                fontSize = 15.sp,
+                color = colorResource(id = R.color.white), modifier = Modifier
+                    .wrapContentSize()
+                    .alpha(if(!visibilitySix) 0f else 1f)
+                    .layoutId("TVcountSix")
+            )
+
+        }
 
     }
 }
+
 
 @Preview
 @Composable
 fun showaaaa(){
     ScreenStartSession.visibilityComponent(
-        //error error
-        StaticDate.listStonesCategory
+        StaticDate.listStonesCategory,visibility = true
     )
 }
 

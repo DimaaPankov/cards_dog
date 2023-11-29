@@ -1,4 +1,4 @@
-package com.fortunetiasasger.exampale.presentation.screens.players.viewmodel
+package com.fortunetiasasger.exampale.presentation.screens.game_person_second.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

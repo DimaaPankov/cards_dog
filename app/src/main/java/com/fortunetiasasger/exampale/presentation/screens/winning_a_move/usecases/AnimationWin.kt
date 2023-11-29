@@ -1,9 +1,7 @@
-package com.fortunetiasasger.exampale.presentation.screens.win.usecases
+package com.fortunetiasasger.exampale.presentation.screens.winning_a_move.usecases
 
-import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
-import androidx.compose.animation.core.animateSizeAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -41,9 +39,9 @@ import kotlinx.coroutines.delay
 @Composable
 fun AnimationWinPreview(){
     AnimationWin(
-        R.drawable.all_cards16,
         R.drawable.all_card_23,
-        winPerson = Person.TWO
+                R.drawable.all_card_23,
+        winPerson = Person.BOTH
     )
 }
 
@@ -53,9 +51,9 @@ fun AnimationWin(
     cardPersonOne:Int,
     cardPersonTwo:Int,
     winPerson:Person
-                           ){
+                           ) {
 
-    val Y_ANIMATE = 160
+    val Y_ANIMATE = 150
     val DURATION_MILLS = 1500
 
     val DEFAULT_WEIDHT_FIRST = 240
@@ -84,11 +82,8 @@ fun AnimationWin(
     val DEFAULT_ALPHA_TEXT_WIN = 0f
     val ANIMATE_ALPHA_TEXT_WIN = 1f
 
-
-
-    val rotation = remember { Animatable(initialValue = 360f) }
-    var img_person_first by remember { mutableStateOf(R.drawable.rubashka_kart) }
-    var img_person_second by remember { mutableStateOf(R.drawable.rubashka_kart) }
+    var img_person_first by remember { mutableStateOf(cardPersonOne) }
+    var img_person_second by remember { mutableStateOf(cardPersonTwo) }
 
 
     var startAnimation by remember {
@@ -96,7 +91,7 @@ fun AnimationWin(
     }
 
 
-    var rotationState by remember {
+   var rotationState by remember {
         mutableStateOf(false)
     }
 
@@ -145,7 +140,7 @@ fun AnimationWin(
         mutableStateOf(false)
     }
 
-    LaunchedEffect(true){
+    LaunchedEffect(true) {
         delay(400)
         startAnimation = true
         imgPersonFirstState = true
@@ -154,46 +149,21 @@ fun AnimationWin(
         rotationSecondState = true
         yFirstState = true
         ySecondState = true
-        rotationState = true
-    }
-
-    if (imgPersonFirstState) {
-        LaunchedEffect(true) {
-            delay(1760L)
-            img_person_first = cardPersonOne
-        }
-    } else {
-        LaunchedEffect(true) {
-           delay(1760L)
-            img_person_first = R.drawable.rubashka_kart
-        }
-    }
-
-    if (imgPersonSecondState) {
-
-        LaunchedEffect(true) {
-            delay(1760L)
-            img_person_second = cardPersonTwo
-        }
-    } else {
-        LaunchedEffect(true) {
-            delay(1760L)
-            img_person_second = R.drawable.rubashka_kart
-        }
     }
 
     LaunchedEffect(true) {
         delay(2000)
-            rotation.animateTo(
-                targetValue = if (rotationState) 180f else 0f,
-                animationSpec = tween(durationMillis = 500),
-            )
+       rotationState = true
+
+
         delay(900)
         when(winPerson){
             Person.ONE -> {yFirstState = false;alphaSecondState = false;
                            weightFirstState = true;heightFirstState = true }
             Person.TWO -> {ySecondState = false;alphaFirstState = false
                            weightSecondState = true;heightSecondState = true}
+            Person.BOTH -> {
+            }
         }
         delay(200)
         textWinState = true
@@ -296,7 +266,7 @@ fun AnimationWin(
                     y = y.dp
                 )
                 .graphicsLayer {
-                    rotationY = rotation.value
+                    rotationY =0f
                 },
             contentDescription = null
         )}
@@ -315,7 +285,7 @@ fun AnimationWin(
                     y = y.dp
                 )
                 .graphicsLayer {
-                    rotationY = rotation.value
+                    rotationY = 0f
                 }
             ,
             contentDescription = null
@@ -339,8 +309,9 @@ fun AnimationWin(
            ){
                Text(
                     text = when(winPerson) {
-                        Person.ONE -> "Person one\n win!"//StaticDate.nameFirst
-                        else -> "Person two\n win!"
+                        Person.ONE -> StaticDate.nameFirst+" win!"
+                        Person.TWO ->"Person two\n win!"
+                        Person.BOTH -> "Draw"
                     },
                    fontFamily = fontFamaly,
                    fontSize = 41.sp,
@@ -349,9 +320,8 @@ fun AnimationWin(
                    modifier = Modifier
                        .wrapContentSize()
                        .alpha(textWinAlpha)
-                       .padding(bottom = 60.dp)
+                       .padding(bottom = 40.dp)
                             )
-
                     }
            }
     }

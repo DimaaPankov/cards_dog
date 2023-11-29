@@ -7,13 +7,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
@@ -24,13 +22,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.fortunetiasasger.exampale.R
-import com.fortunetiasasger.exampale.data.models.Person
 import com.fortunetiasasger.exampale.data.repository.StaticDate
-import com.fortunetiasasger.exampale.presentation.activity.MainActivity
-import com.fortunetiasasger.exampale.presentation.nav.Screen
-import com.fortunetiasasger.exampale.presentation.screens.loading.view.ScreenLoading.viewModel
-import com.fortunetiasasger.exampale.presentation.screens.players.viewmodel.ViewModelPlayers
-import com.fortunetiasasger.exampale.screens.setup_cards.com.fortunetiasasger.exampale.theme.fontFamaly
+import com.fortunetiasasger.exampale.presentation.screens.game_person_second.viewmodel.ViewModelPlayers
 
 @Preview
     @Composable
@@ -39,32 +32,17 @@ import com.fortunetiasasger.exampale.screens.setup_cards.com.fortunetiasasger.ex
     }
 
 
-class ScreenPlayers(val viewModel:ViewModelPlayers) {
-
-
+class ScreenPlayers(val viewModel: ViewModelPlayers) {
     @Composable
     fun ShowScreen(){
-
-        val playerOne =  viewModel.textPlayerOne.observeAsState(initial = "").value
-     //   val playerTwo =  viewModel.textPlayerTwo.observeAsState(initial = "").value
-        val clickedStartSate = viewModel.clickedStartState.observeAsState(initial = false).value
-        val changePlayerOne:(String)->Unit = {
-            viewModel.changePlayerOne(it)
-        }
+        val playerOne = viewModel.titleNow.observeAsState(initial = "").value
 
         val changeStartSate = {
-           viewModel.clickedStartState()
+           viewModel.clickedStart()
         }
-        val goStart = {
-            MainActivity.navController.navigate(Screen.ScreenStartSession.route)
-        }
-
 
         ScreenLogic(
-            goStart = goStart,
-            textOnePlayer = playerOne,
-            changePlayerOne = changePlayerOne,
-            clickedStartSate = clickedStartSate,
+            textPlayer = playerOne?:"",
             changeStateClickedStart = changeStartSate
         )
 
@@ -73,16 +51,10 @@ class ScreenPlayers(val viewModel:ViewModelPlayers) {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun ScreenLogic(
-     goStart:()->Unit,
-     textOnePlayer:String,
-     clickedStartSate:Boolean,
-     changePlayerOne:(String)->Unit,
+     textPlayer:String,
      changeStateClickedStart:()->Unit
     ){
 
-        if(clickedStartSate){
-            goStart()
-        }
 
         val constraints = ConstraintSet {
             val IVenterName = createRefFor("IVenterName")
@@ -90,7 +62,7 @@ class ScreenPlayers(val viewModel:ViewModelPlayers) {
             val TVtwoPlayer = createRefFor("TVtwoPlayer")
             val IVfieldOne = createRefFor("IVfieldOne")
             val IVfieldTwo = createRefFor("IVfieldTwo")
-            val ETplayerOne = createRefFor("ETplayerOne")
+            val ETplayerOne = createRefFor("ETplayer")
             val IVclickToStart = createRefFor("IVclickToStart")
             val ETplayerTwo = createRefFor("ETplayerTwo")
             val guideLine = createGuidelineFromBottom(0.5f)
@@ -195,79 +167,19 @@ class ScreenPlayers(val viewModel:ViewModelPlayers) {
                   }
           )
 
-        /*  Image(
-              painter = painterResource(
-                  id = R.drawable.enter_name_for_player_name
-              )
-              , contentDescription =""
-              , modifier = Modifier
-                  .layoutId("IVfieldTwo")
-                  .alpha(0f)
-                  .fillMaxWidth(0.8f)
-                  .fillMaxHeight(0.1f)
-          )
-          */
-
-/*  Text(
-        text=  if(DateGamePersonTwo.listCards.User == Person.ONE) {
-            "1 player"
-        }else{
-            "2 player"
-        }
-        , modifier = Modifier
-            .layoutId("TVonePlayer")
-        ,fontSize =70.sp
-        ,color = Color.White
-        , fontFamily = fontFamaly
-    )
-
- */
-
-  /*  Text(
-        text = "2 player"
-        ,modifier = Modifier
-         .layoutId("TVtwoPlayer")
-        ,fontSize =70.sp
-        ,color = Color.White
-        ,fontFamily = fontFamaly
-    )
-*/
     TextField(
-        value = textOnePlayer,
+        value =  textPlayer,
         modifier = Modifier
-            .layoutId("ETplayerOne")
+            .layoutId("ETplayer")
             .fillMaxWidth(0.8f)
-            .fillMaxHeight(0.07f),
+            .fillMaxHeight(0.08f),
         textStyle = TextStyle(fontSize=25.sp),
-        onValueChange = {newText ->
-           // Date.nameUserOne = newText
-            //firstName.value = newText
-            changePlayerOne(newText)
-        }
-    )
+        onValueChange = { newText ->
 
-
-/*
-    TextField(
-        value = textTwoPlayer,
-        modifier = Modifier
-            .layoutId("ETplayerTwo")
-            .fillMaxWidth(0.8f)
-            .fillMaxHeight(0.07f),
-        textStyle = TextStyle(fontSize=25.sp),
-        onValueChange = {newText ->
-           // Date.nameUserOne = newText
-           //secondName.value = newText
-            changePlayerTwo(newText)
-        }
-    )
-
-*/
-
-
-}
-}
-
+            viewModel.changeNameNow(newText)
+        })
+      }
+    }
 
 }
 

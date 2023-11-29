@@ -1,4 +1,4 @@
-package com.fortunetiasasger.exampale.presentation.screens.screen_util.check_animation
+package com.fortunetiasasger.exampale.presentation.screens.screen_util.check_animation.view
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
@@ -29,8 +29,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.rotationMatrix
 import com.fortunetiasasger.exampale.R
+import com.fortunetiasasger.exampale.data.models.Person
+import com.fortunetiasasger.exampale.data.repository.StaticDate
+import com.fortunetiasasger.exampale.presentation.screens.screen_util.check_animation.model.OffSetX
 import kotlinx.coroutines.delay
 
 
@@ -39,7 +41,7 @@ fun checkCardsAnimation(
     img:Int,
     layoutId:String,
     ofSetXDefault: Int,
-    rotationCard:Int,
+    person: Person,
     actionDrop:()->Unit
 ) {
 
@@ -60,6 +62,15 @@ fun checkCardsAnimation(
 
     var click by remember {
         mutableStateOf(ClickedCard.DON_T_CLICKED)
+    }
+
+    if(click == ClickedCard.DROP_CLICKED){
+        if(person == Person.ONE) {
+            StaticDate.cardImgDropedPersonFirst = img
+
+        }else{
+            StaticDate.cardImgDropedPersonSecond = img
+        }
     }
 
     val alpha by animateIntAsState(
@@ -115,7 +126,8 @@ fun checkCardsAnimation(
         targetValue = when(click){
             ClickedCard.DON_T_CLICKED ->0
             ClickedCard.CHECK_CLICKED -> 0
-            ClickedCard.DROP_CLICKED ->-rotationCard
+            ClickedCard.DROP_CLICKED -> if(person == Person.ONE) -10 else 10
+
         }
     )
 
@@ -124,27 +136,42 @@ fun checkCardsAnimation(
             delay(160L)
             _img = img
         }
-    } else {
+    } else if(click == ClickedCard.DROP_CLICKED){
+        LaunchedEffect(true) {
+
+
+        }
+    }else if(click == ClickedCard.DON_T_CLICKED){
         LaunchedEffect(true) {
             delay(160L)
-            _img = R.drawable.rubashka_kart
+           _img = R.drawable.rubashka_kart
+
+
         }
     }
     if (click == ClickedCard.CHECK_CLICKED) {
+        LaunchedEffect(true) {
+            rotation.animateTo(
+                targetValue = 360f,
+                animationSpec = tween(durationMillis = 500),
+            )
+        }
+    }else if(click == ClickedCard.DROP_CLICKED){
+        LaunchedEffect(true) {
+            rotation.animateTo(
+                targetValue = 360f,
+                animationSpec = tween(durationMillis = 500),
+            )
+        }
+
+        }else if(click == ClickedCard.DON_T_CLICKED){
         LaunchedEffect(true) {
             rotation.animateTo(
                 targetValue = 180f,
                 animationSpec = tween(durationMillis = 500),
             )
         }
-    }else{
-        LaunchedEffect(true) {
-            rotation.animateTo(
-                targetValue = 0f,
-                animationSpec = tween(durationMillis = 500),
-            )
-        }
-    }
+}
 
 Box(
     modifier = Modifier
@@ -163,10 +190,12 @@ Box(
             .rotate(rotationDrop.toFloat())
             .width(widht.value.dp)
             .clickable {
-                click = if(click == ClickedCard.CHECK_CLICKED){
-                    ClickedCard.DON_T_CLICKED
+
+                 if(click == ClickedCard.CHECK_CLICKED){
+                    click = ClickedCard.DON_T_CLICKED
+
                 }else{
-                    ClickedCard.CHECK_CLICKED
+                     click = ClickedCard.CHECK_CLICKED
                 }
             },
         painter = painterResource(id = _img),
@@ -222,7 +251,7 @@ fun PreviewrotaionAnimaton(){
         checkCardsAnimation(
             img = R.drawable.all_cards1,
             layoutId = "IVfiveCard",
-            rotationCard = -10,
+            person = Person.ONE,
             ofSetXDefault = OffSetX.one,
             actionDrop = {}
         )

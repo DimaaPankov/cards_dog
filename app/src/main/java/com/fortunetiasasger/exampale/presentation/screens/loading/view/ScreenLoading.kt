@@ -21,6 +21,7 @@ import com.fortunetiasasger.exampale.R
 import com.fortunetiasasger.exampale.presentation.activity.MainActivity
 import com.fortunetiasasger.exampale.presentation.nav.Screen
 import com.fortunetiasasger.exampale.presentation.screens.loading.viewmodel.ViewModelLoading
+import com.fortunetiasasger.exampale.presentation.screens.winning_game.viewmodel.ViewModelWinningGame
 import com.fortunetiasasger.exampale.screens.setup_cards.com.fortunetiasasger.exampale.theme.Cards_spels_plus_composeTheme
 import kotlinx.coroutines.delay
 
@@ -34,11 +35,11 @@ fun ShowLoading(){
 
 object ScreenLoading {
 
-    val viewModel = ViewModelLoading()
+    val viewModel = ViewModelWinningGame()
     @Composable
     fun ShowScreen() {
 
-        SetLogicChangeView()
+
         SetDefaultView()
     }
 
@@ -46,6 +47,8 @@ object ScreenLoading {
 
     @Composable
     fun SetDefaultView() {
+
+        viewModel.goOtherScreen()
 
         Box(
             modifier = Modifier.fillMaxSize()
@@ -85,21 +88,7 @@ object ScreenLoading {
     }
 
 
-        @Composable
-        fun SetLogicChangeView() {
-            val stateActionGoStart =
-                viewModel.actionGoStart.observeAsState(initial = false).value
 
-            LaunchedEffect(true) {
-                delay(3000L)
-                viewModel.actionGoStartState(true)
-            }
-
-            if (stateActionGoStart) {
-                MainActivity.navController.navigate(Screen.ScreenStart.route)
-            }
-
-        }
     }
 
 @Preview

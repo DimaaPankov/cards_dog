@@ -24,14 +24,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.fortunetiasasger.exampale.R
 import com.fortunetiasasger.exampale.screens.setup_cards.com.fortunetiasasger.exampale.theme.Cards_spels_plus_composeTheme
-import com.fortunetiasasger.exampale.data.models.Person
 import com.fortunetiasasger.exampale.data.repository.StaticDate
-import com.fortunetiasasger.exampale.presentation.activity.MainActivity
-import com.fortunetiasasger.exampale.presentation.nav.Screen
+
 import com.fortunetiasasger.exampale.presentation.screens.choosestones.viewmodel.ViewModelChooseStone
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+
 
 
 @Preview(showBackground = true)
@@ -43,48 +39,19 @@ import kotlinx.coroutines.launch
     }
 
   class ScreenChooseStones(
-      private val viewModel:ChooseStoneApi
+      private val viewModel:ViewModelChooseStone
   ) {
-      var isDontGoScreen = true
-
 
       @Composable
       fun ShowScreen() {
-          val scope = rememberCoroutineScope()
+
           val levelLoadingState by animateFloatAsState(
-              targetValue = viewModel.levelLoadingState.observeAsState(0f).value, label = ""
+              targetValue = viewModel.levelLoadingState.observeAsState(0f).value,
+              label = "",
           )
 
-        //  var levelLoadingState = viewModel.levelLoadingState.observeAsState(0f).value
-          val clickedCraftState = viewModel.clickedCrafState.observeAsState(false).value
           val listStoneLeft = viewModel.listStoneLeft.observeAsState().value
           val listStoneRight = viewModel.listStoneRight.observeAsState().value
-
-          if(clickedCraftState){
-                if(viewModel.clickable.value != false) {
-                    viewModel.levelLoadingState(
-                        levelLoadingState + ChooseStoneApi.LEVEL_LOADING
-                    )
-                    listStoneLeft?.remove(viewModel.stoneLeft)
-                    listStoneRight?.remove(viewModel.stoneRight)
-                }
-              viewModel.clickable(false)
-          }
-
-          if(clickedCraftState){
-              if(isDontGoScreen) {
-                  isDontGoScreen = false
-                scope.launch {
-                    delay(300)
-                    Log.d("test_22", StaticDate.listCardsNow().size.toString())
-                    MainActivity.navController.navigate(Screen.ScreenSetupCards.route)
-                }
-
-                      // viewModel.clickedCrafState(false)
-                  }
-              }
-
-
 
           ConstraintLayout(
               constraintSet = constraints,
@@ -105,14 +72,12 @@ import kotlinx.coroutines.launch
                   listImg =
                   listStoneLeft?.toList()?: listOf(),
                   id = "ColumLeft",
-                  side = SidesStone.Lefr,
-                  viewModel
-              )
+                  side = SidesStone.Lefr
+                  )
               PagerStone(
                   listImg = listStoneRight?.toList()?: listOf(),
                   id = "ColumRight",
-                  side = SidesStone.Right,
-                  viewModel
+                  side = SidesStone.Right
               )
 
 
@@ -144,10 +109,7 @@ import kotlinx.coroutines.launch
                       .layoutId("IVclickCraft")
                       .fillMaxWidth(0.9f)
                       .clickable {
-                        //  if(viewModel.clickable.value!=false){
-                              viewModel.clickedCrafState(true)
-                          //}
-
+                              viewModel.clickToCraft()
                       }
                       .height(70.dp),
                   painter = painterResource(id = R.drawable.craft),
@@ -158,21 +120,14 @@ import kotlinx.coroutines.launch
                   modifier = Modifier
                       .layoutId("IVclickPreview")
                       .fillMaxWidth(0.9f)
-                      .height(60.dp),
+                      .height(60.dp)
+                      .clickable { viewModel.clickToPreview()},
                   painter = painterResource(id = R.drawable.previev),
                   contentDescription = ""
               )
 
-              Image(
-                  modifier = Modifier
-                      .layoutId("IVback")
-                      .fillMaxWidth(0.2f)
-                      .fillMaxHeight(0.1f),
-                  painter = painterResource(id = R.drawable.big_reset),
-                  contentDescription = ""
-              )
 
-              Image(
+            /*  Image(
                   modifier = Modifier
                       .layoutId("IVsound")
                       .fillMaxWidth(0.2f)
@@ -180,7 +135,7 @@ import kotlinx.coroutines.launch
                       .height(60.dp),
                   painter = painterResource(id = R.drawable.sound_and_music_on),
                   contentDescription = ""
-              )
+              )*/
 
               Image(
                   modifier = Modifier
@@ -234,14 +189,14 @@ import kotlinx.coroutines.launch
 
           constrain(IVloadingOut) {
               bottom.linkTo(IVgameDrum.top)
-              top.linkTo(IVback.top, margin = 100.dp)
+              top.linkTo(parent.top)
               start.linkTo(parent.start)
               end.linkTo(parent.end)
           }
 
           constrain(IVloadingIn) {
               bottom.linkTo(IVgameDrum.top)
-              top.linkTo(IVback.top, margin = 100.dp)
+              top.linkTo(parent.top)
               start.linkTo(IVloadingOut.start, margin = 7.dp)
           }
 
